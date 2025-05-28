@@ -1,0 +1,26 @@
+# Gradle
+.gradle/
+**/build/
+
+# Android Studio
+.idea/
+local.properties
+.cxx/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jetpack Compose
+**/ui/.preview/
+
+# Kotlin/Java
+*.class
+*.log
+
+# Signing
+*.jks
+*.keystore
+
+# Etc.
+*.iml
