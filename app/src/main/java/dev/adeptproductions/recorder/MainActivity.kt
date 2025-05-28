@@ -49,9 +49,10 @@ fun SoundRecorderUI(modifier: Modifier = Modifier) {
 
     var isRecording by remember { mutableStateOf(false) }
     var hasRecording by remember { mutableStateOf(false) }
+    var isLooping by remember { mutableStateOf(false) }
 
     val outputFilePath = remember {
-        "${context.getExternalFilesDir(null)?.absolutePath}/recording.3gp"
+        "${context.getExternalFilesDir(null)?.absolutePath}/recording_loop.m4a"
     }
 
     val permissionLauncher = rememberLauncherForActivityResult(
@@ -61,13 +62,16 @@ fun SoundRecorderUI(modifier: Modifier = Modifier) {
             isRecording = true
             audioRecorder.startRecording(outputFilePath)
         } else {
-            Toast.makeText(context, "Mic permission denied", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Microphone permission denied", Toast.LENGTH_SHORT).show()
         }
     }
 
-    Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
         Button(
             onClick = {
@@ -80,17 +84,25 @@ fun SoundRecorderUI(modifier: Modifier = Modifier) {
                         val file = File(outputFilePath)
                         if (file.exists() && file.length() > 0) {
                             Toast.makeText(context, "✅ Saved: ${file.absolutePath}", Toast.LENGTH_SHORT).show()
-                            audioPlayer.play(outputFilePath)
+                            isLooping = true
+                            audioPlayer.play(filePath = outputFilePath, loop = true)
                         } else {
                             Toast.makeText(context, "❌ File not saved or empty", Toast.LENGTH_LONG).show()
                         }
                     }
 
-                    hasRecording -> {
-                        audioPlayer.play(outputFilePath) {
-                            Toast.makeText(context, "Playback finished", Toast.LENGTH_SHORT).show()
-                        }
+                    hasRecording && !audioPlayer.isPlaying() -> {
+                        isLooping = true
+                        audioPlayer.play(filePath = outputFilePath, loop = true)
+                        Toast.makeText(context, "🔁 Looping playback", Toast.LENGTH_SHORT).show()
                     }
+
+                    hasRecording && audioPlayer.isPlaying() -> {
+                        isLooping = false
+                        audioPlayer.stop()
+                        Toast.makeText(context, "⏹️ Loop stopped", Toast.LENGTH_SHORT).show()
+                    }
+
                     else -> {
                         val status = ContextCompat.checkSelfPermission(
                             context, Manifest.permission.RECORD_AUDIO
@@ -109,16 +121,27 @@ fun SoundRecorderUI(modifier: Modifier = Modifier) {
             colors = ButtonDefaults.buttonColors(
                 containerColor = when {
                     isRecording -> Color.Red
-                    hasRecording -> Color.Green
+                    isLooping -> Color.Blue
                     else -> Color.Gray
                 }
             )
         ) {
             Icon(
-                imageVector = if (isRecording) Icons.Default.Stop else Icons.Default.Mic,
+                imageVector = if (isRecording || isLooping) Icons.Default.Stop else Icons.Default.Mic,
                 contentDescription = null,
                 tint = Color.White
             )
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = when {
+                isRecording -> "Recording..."
+                isLooping -> "Playing in loop"
+                hasRecording -> "Ready to play"
+                else -> "Press to start"
+            }
+        )
     }
 }
