@@ -5,25 +5,21 @@ import android.media.MediaPlayer
 import java.io.File
 
 class AudioPlayer(private val context: Context) {
-
     private var mediaPlayer: MediaPlayer? = null
 
-    fun play(filePath: String, onCompletion: (() -> Unit)? = null) {
-        stop() // Stop if already playing
+    fun play(filePath: String, onComplete: (() -> Unit)? = null) {
+        stop() // Stop any previous playback
 
-        val file = File(filePath)
-        if (!file.exists()) {
-            return
-        }
+        if (!File(filePath).exists()) return
 
         mediaPlayer = MediaPlayer().apply {
-            setDataSource(file.absolutePath)
-            setOnPreparedListener { start() }
+            setDataSource(filePath)
             setOnCompletionListener {
-                onCompletion?.invoke()
-                release()
+                onComplete?.invoke()
+                stop()
             }
-            prepareAsync()
+            prepare()
+            start()
         }
     }
 
@@ -35,7 +31,5 @@ class AudioPlayer(private val context: Context) {
         mediaPlayer = null
     }
 
-    fun isPlaying(): Boolean {
-        return mediaPlayer?.isPlaying == true
-    }
+    fun isPlaying(): Boolean = mediaPlayer?.isPlaying == true
 }

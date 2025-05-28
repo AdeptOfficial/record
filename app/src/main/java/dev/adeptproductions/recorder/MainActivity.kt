@@ -25,6 +25,7 @@ import androidx.core.content.ContextCompat
 import dev.adeptproductions.recorder.audio.AudioPlayer
 import dev.adeptproductions.recorder.audio.AudioRecorder
 import dev.adeptproductions.recorder.ui.theme.RecordTheme
+import java.io.File
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,15 +44,14 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun SoundRecorderUI(modifier: Modifier = Modifier) {
     val context = LocalContext.current
+    val audioPlayer = remember { AudioPlayer(context) }
+    val audioRecorder = remember { AudioRecorder(context) }
 
     var isRecording by remember { mutableStateOf(false) }
     var hasRecording by remember { mutableStateOf(false) }
 
-    val audioPlayer = remember { AudioPlayer(context) }
-    val audioRecorder = remember { AudioRecorder(context) }
-
     val outputFilePath = remember {
-        "${context.cacheDir.absolutePath}/recording.3gp"
+        "${context.getExternalFilesDir(null)?.absolutePath}/recording.3gp"
     }
 
     val permissionLauncher = rememberLauncherForActivityResult(
@@ -61,7 +61,7 @@ fun SoundRecorderUI(modifier: Modifier = Modifier) {
             isRecording = true
             audioRecorder.startRecording(outputFilePath)
         } else {
-            Toast.makeText(context, "Microphone permission denied", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Mic permission denied", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -76,20 +76,26 @@ fun SoundRecorderUI(modifier: Modifier = Modifier) {
                         audioRecorder.stopRecording()
                         isRecording = false
                         hasRecording = true
-                        Toast.makeText(context, "Recording stopped. Playing back...", Toast.LENGTH_SHORT).show()
-                        audioPlayer.play(outputFilePath)
+
+                        val file = File(outputFilePath)
+                        if (file.exists() && file.length() > 0) {
+                            Toast.makeText(context, "✅ Saved: ${file.absolutePath}", Toast.LENGTH_SHORT).show()
+                            audioPlayer.play(outputFilePath)
+                        } else {
+                            Toast.makeText(context, "❌ File not saved or empty", Toast.LENGTH_LONG).show()
+                        }
                     }
 
                     hasRecording -> {
-                        audioPlayer.play(outputFilePath)
+                        audioPlayer.play(outputFilePath) {
+                            Toast.makeText(context, "Playback finished", Toast.LENGTH_SHORT).show()
+                        }
                     }
-
                     else -> {
-                        val permissionStatus = ContextCompat.checkSelfPermission(
-                            context,
-                            Manifest.permission.RECORD_AUDIO
+                        val status = ContextCompat.checkSelfPermission(
+                            context, Manifest.permission.RECORD_AUDIO
                         )
-                        if (permissionStatus == PackageManager.PERMISSION_GRANTED) {
+                        if (status == PackageManager.PERMISSION_GRANTED) {
                             isRecording = true
                             audioRecorder.startRecording(outputFilePath)
                         } else {
@@ -110,7 +116,7 @@ fun SoundRecorderUI(modifier: Modifier = Modifier) {
         ) {
             Icon(
                 imageVector = if (isRecording) Icons.Default.Stop else Icons.Default.Mic,
-                contentDescription = if (isRecording) "Stop Recording" else "Start Recording",
+                contentDescription = null,
                 tint = Color.White
             )
         }

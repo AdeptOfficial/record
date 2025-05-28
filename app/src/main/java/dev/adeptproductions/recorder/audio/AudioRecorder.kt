@@ -6,14 +6,11 @@ import android.os.Build
 import java.io.File
 
 class AudioRecorder(private val context: Context) {
-
     private var recorder: MediaRecorder? = null
 
     fun startRecording(filePath: String) {
         val file = File(filePath)
-        if (file.exists()) {
-            file.delete() // delete old file
-        }
+        if (file.exists()) file.delete()
 
         recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             MediaRecorder(context)
@@ -35,19 +32,13 @@ class AudioRecorder(private val context: Context) {
             try {
                 it.stop()
             } catch (e: Exception) {
-                e.printStackTrace() // You may log this
+                e.printStackTrace()
             } finally {
-                try {
-                    it.release()
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+                it.release()
                 recorder = null
             }
         }
     }
 
-    fun isRecording(): Boolean {
-        return recorder != null
-    }
+    fun isRecording(): Boolean = recorder != null
 }
