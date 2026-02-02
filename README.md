@@ -24,13 +24,56 @@ A real-time audio looper app for Android, inspired by the TC Electronic Ditto Lo
 
 ## Usage
 
-1. **Plug in headphones** (required to avoid feedback)
-2. Tap to start recording
-3. Tap again to set the loop length - playback starts immediately
-4. Tap to overdub more layers
-5. Hold to undo a layer
-6. Double-tap to stop
-7. Tap "Save Loop" to export as WAV
+### Getting Started
+
+1. **Plug in headphones** - This is required to avoid audio feedback (the mic picking up the speaker)
+2. **Grant microphone permission** when prompted on first launch
+
+### Recording Your First Loop
+
+1. **Tap** the button to start recording (button turns red)
+2. Play your beat, riff, or vocal
+3. **Tap** again to set the loop length - playback starts immediately (button turns green)
+4. Your loop now plays continuously
+
+### Adding Layers (Overdubbing)
+
+1. While playing, **tap** to enter overdub mode (button turns yellow)
+2. Record additional sounds on top of your loop
+3. **Tap** again to return to normal playback
+4. Repeat to stack as many layers as you want
+
+### Removing Layers (Undo)
+
+1. While playing or overdubbing, **hold** the button for 500ms
+2. The last recorded layer is removed
+3. Keep holding and releasing to undo multiple layers
+
+### Stopping and Resuming
+
+1. **Double-tap** to stop playback (button turns blue)
+2. **Tap** to resume playing from where you stopped
+3. **Hold** while stopped to delete everything and start fresh
+
+### Saving Your Loop
+
+1. Stop playback with a double-tap
+2. Tap the **"Save Loop"** button that appears
+3. Your loop is saved as a WAV file in the Music folder
+
+### Quick Reference
+
+| Action | How | When |
+|--------|-----|------|
+| Start recording | Tap | When idle (gray) |
+| Set loop & play | Tap | While recording (red) |
+| Overdub | Tap | While playing (green) |
+| Stop overdub | Tap | While overdubbing (yellow) |
+| Undo layer | Hold 500ms | While playing/overdubbing |
+| Stop | Double-tap | While playing/overdubbing |
+| Resume | Tap | While stopped (blue) |
+| Delete all | Hold 500ms | While stopped |
+| Delete all (quick) | Double-tap + hold | While playing/overdubbing |
 
 ## Building
 
