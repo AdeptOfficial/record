@@ -1,4 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Record</string>
+
+    <string name="looper_button">Looper</string>
+    <string name="state_idle">Ready</string>
+    <string name="state_recording">Recording</string>
+    <string name="state_playing">Playing</string>
+    <string name="state_overdubbing">Overdub</string>
+    <string name="state_stopped">Stopped</string>
+
+    <string name="action_record">Start recording</string>
+    <string name="action_close_loop">Set loop length and play</string>
+    <string name="action_overdub">Start overdub</string>
+    <string name="action_finish_overdub">Finish overdub</string>
+    <string name="action_resume">Resume</string>
+    <string name="action_undo">Undo last layer</string>
+    <string name="action_stop">Stop</string>
+    <string name="action_delete">Delete loop</string>
+
+    <string name="hint_idle">Tap to start recording.</string>
+    <string name="hint_recording">Tap to set the loop length and play it.</string>
+    <string name="hint_playing">Tap: overdub · Hold: undo a layer · Double-tap: stop · Double-tap and hold: delete</string>
+    <string name="hint_overdubbing">Tap: back to playing · Hold: undo this overdub · Double-tap: stop</string>
+    <string name="hint_stopped">Tap: resume · Hold: delete the loop</string>
+
+    <string name="no_loop">No loop yet</string>
+    <string name="recording_time">%1$s s of %2$s s</string>
+    <plurals name="loop_summary">
+        <item quantity="one">%1$s s loop · %2$d undoable layer</item>
+        <item quantity="other">%1$s s loop · %2$d undoable layers</item>
+    </plurals>
+
+    <string name="input_level">Input level</string>
+    <string name="input_default">Default microphone</string>
+    <string name="input_builtin">Built-in mic</string>
+    <string name="input_headset">Headset mic</string>
+    <string name="input_bluetooth">Bluetooth mic</string>
+    <string name="input_line">Line in</string>
+    <string name="input_usb">USB audio</string>
+    <string name="monitor">Hear input</string>
+
+    <string name="save_loop">Save loop</string>
+    <string name="saving">Saving…</string>
+    <string name="save_hint">Stop the loop to save it.</string>
+    <string name="saved_as">Saved to Music/Record as %1$s</string>
+    <string name="save_no_loop">There is no loop to save.</string>
+    <string name="save_busy">Finish recording or overdubbing first.</string>
+    <string name="save_needs_permission">Saving needs storage access.</string>
+    <string name="save_failed">The loop could not be saved.</string>
+
+    <string name="mic_needed">Record needs the microphone to capture loops.</string>
+    <string name="allow_mic">Allow microphone</string>
+    <string name="open_settings">App settings</string>
+    <string name="audio_error">Audio could not start (code %1$d). Another app may be using the microphone.</string>
+    <string name="retry">Retry</string>
+    <string name="headphones_warning">Plug in headphones. Through the speaker, the microphone records the loop as well.</string>
 </resources>

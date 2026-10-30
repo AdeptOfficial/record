@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Neutral loop-and-record mark; replace with the client's artwork when available. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
     <path
-        android:fillColor="#FF000000"
-        android:pathData="M30,30L78,30L78,78L30,78L30,30Z" />
+        android:strokeColor="#FF1B1C1E"
+        android:strokeWidth="6"
+        android:pathData="M32,54a22,22 0,1 0,44 0a22,22 0,1 0,-44 0z" />
+    <path
+        android:fillColor="#FFC62828"
+        android:pathData="M45,54a9,9 0,1 0,18 0a9,9 0,1 0,-18 0z" />
 </vector>
